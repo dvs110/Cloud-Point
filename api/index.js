@@ -1,5 +1,6 @@
 import express from "express"
 import dotenv from "dotenv"
+import path from "path"
 dotenv.config();
 import https from "https"
 const app = express()
@@ -9,7 +10,7 @@ app.use(express.urlencoded({ extended: false }))
 
 
 app.use(express.json());
-
+// app.use(express.static(path.join(__dirname + "/public")))
 
 
 
