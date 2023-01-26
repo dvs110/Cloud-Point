@@ -1,16 +1,19 @@
+// https://cloudy-point.herokuapp.com/
 import express from "express"
 import dotenv from "dotenv"
 import path from "path"
 dotenv.config();
 import https from "https"
 const app = express()
-
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const port = process.env.PORT || 4000;
 app.use(express.urlencoded({ extended: false }))
 
 
 app.use(express.json());
-// app.use(express.static(path.join(__dirname + "/public")))
+app.use(express.static(path.join(__dirname + "/public")))
 
 
 
@@ -52,15 +55,15 @@ app.post("/form", function (req, res) {
         console.log(response.statusCode);
         response.on("data", function (data) {
             const weatherdata = JSON.parse(data)
-            const temp = weatherdata.main.temp;
+            const temp = weatherdata.main.temp - 273.15;
             const name = weatherdata.name
-            // console.log(name);
+            console.log(name);
             let ob = {
-                t: temp,
+                t: temp.toFixed(2),
                 n: name,
                 c: currDate
             }
-            console.log(ob);
+            console.log(ob.t);
             res.status(200).json(ob)
 
         })
